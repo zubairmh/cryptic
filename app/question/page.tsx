@@ -14,7 +14,8 @@ export default function Question() {
     }
     return (
     <div style={orbit.style} className="bg-black text-white flex-col flex min-h-screen items-center justify-center gap-6">
-        <img className="h-[60vh]" alt="ques" src="https://i.imgur.com/ZLrlxJx.png"/>
+        <h1 className="text-3xl">Question 1</h1>
+        <img className="h-[60vh]" alt="quesw" src="https://i.imgur.com/ZLrlxJx.png"/>
         <Input ref={answer} className="md:w-1/4 w-1/2" placeholder="answer" />
         <Button onClick={ValidateAnswer}>Submit</Button>
     </div>
