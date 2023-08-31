@@ -6,8 +6,19 @@ import * as z from "zod"
 import {Button} from "@/components/ui/button"
 import {Form, FormField, FormItem, FormControl, FormLabel, FormDescription, FormMessage} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import axios from "axios"
+import { useRouter } from "next/navigation";
+import { useEffect } from "react"
+// import toastify
+// import localstorage
+// import { useCookies } from "react-cookie"
+// import { useRouter } from "next/router"
+
 
 export default function Login() {
+
+  // const [cookies, setCookie] = useCookies(['data']);
+  const router = useRouter();
 
     const FormSchema = z.object({
         email: z.string().min(2, {
@@ -19,8 +30,15 @@ export default function Login() {
         resolver: zodResolver(FormSchema),
     })
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
+      axios.get("https://localhost:8100/v1/auth/login",{username:data.email,password:data.password}).then((res)=>{
+        localStorage.setItem("data",JSON.stringify({jwt:res.data.token}))
+        router.push("/question")
+      }).catch((error)=>{
+        // notify("wrong credentials")
+        console.log(error)
+      })
     }
+
     return <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className="sm:w-1/4 w-1/2 space-y-6 mt-10">
       <FormField
