@@ -52,7 +52,7 @@ export default function Login() {
         }
       )
       .then((res) => {
-        setCookie("data", JSON.stringify({ jwt: res.data.access_token }));
+        setCookie("data", res.data.access_token);
         router.push("/question");
       })
       .catch((error) => {

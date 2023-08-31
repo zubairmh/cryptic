@@ -1,34 +1,83 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Orbitron } from "next/font/google";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
-// import { useEffect } from "react"
+import { useEffect } from "react";
 import axios from "axios";
 import { error } from "console";
 import { useRouter } from "next/navigation";
+import { getCookie, hasCookie } from "cookies-next";
 const orbit = Orbitron({ weight: "600", subsets: ["latin"] });
-
+interface Question {
+  ques: string;
+  number: number;
+  images: Array<string>;
+}
 export default function Question() {
   const answer = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const [ans, setans] = useEffect({});
+  const [ans, setAns] = useState<Question>({
+    ques: "Loading...",
+    number: 1,
+    images: ["/giphy.webp"],
+  });
+  function fetchques(){
+
+    axios
+    .get(`http://localhost:8100/ques/get`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("data")}`,
+        Accept: "application/json",
+      },
+    })
+    .then((res) => {
+      setAns(res.data);
+      console.log(ans);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  }
+
   useEffect(() => {
-    let data = localStorage.getItem("data");
-    if (typeof data == undefined) {
+    if (!hasCookie("data")) {
       router.push("/");
     }
-    axios.get(`http://localhost:8100/ques/get`, {
+    fetchques();
+    
+  }, []);
+
+  function handleSubmit() {
+    // console.log(answer.current.value)
+    axios.post(
+      "http://localhost:8100/ques/verify",
+      { ans: answer.current?.value },
+      {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-          Accept: "application/json",
+          Authorization: `Bearer ${getCookie("data")}`,
+          "Content-Type": "application/json",
         },
-      }).then((res)=>{
-        setans(res.data)
-      }).catch((error)=>{console.log(error)})
-    })
+      }
+    ).then((res)=>{
+
+        console.log(res.data)
+        if(res.data){
+            // notify("correct ans");
+            // setTimeout(() => {
+                
+            // }, 1000);
+            fetchques();
+        }
+        else{
+            // notify("wrong ans");
+
+        }
+    }).catch((error)=>{console.log(error)}) // console.log(e.target.value);
+  }
   function ValidateAnswer() {
     if (answer.current && answer.current.value != "") {
       console.log(answer.current.value);
@@ -39,14 +88,23 @@ export default function Question() {
       style={orbit.style}
       className="bg-black text-white flex-col flex min-h-screen items-center justify-center gap-6"
     >
-      <h1 className="text-3xl">Question 1</h1>
-      <img
-        className="h-[60vh]"
-        alt="ques"
-        src="https://i.imgur.com/0hvaNo3.jpeg"
-      />
+      <h1 className="text-3xl">Question {ans.number}</h1>
+      {ans.ques.split("<br/>").map((e,i)=>{
+        return <h3 key={i}>{e}</h3>
+      })}
+      
+      {ans.images &&
+        ans.images.map((e, i) => {
+          return (
+            <>
+              <img className="h-[60vh]" alt="ques" src={e} />
+            </>
+          );
+        })}
       <Input ref={answer} className="md:w-1/4 w-1/2" placeholder="answer" />
-      <Button>Submit</Button>
+      <Button onClick={handleSubmit} type="button">
+        Submit
+      </Button>
     </div>
   );
 }
