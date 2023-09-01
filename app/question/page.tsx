@@ -36,6 +36,11 @@ export default function Question() {
         },
       })
       .then((res) => {
+        setAns({
+          ques: "Loading...",
+          number: 1,
+          images: ["/giphy.webp"],
+        });
         setAns(res.data);
         console.log(ans);
       })
