@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 // import { cookies } from 'next/headers'
 import { setCookie } from "cookies-next";
+import { BASE_URL } from "@/lib/base";
 // import toastify
 // import localstorage
 // import { useCookies } from "react-cookie"
@@ -39,7 +40,7 @@ export default function Login() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     axios
       .post(
-        "http://localhost:8100/v1/auth/login",
+        `${BASE_URL}v1/auth/login`,
         {
           username: data.email,
           password: data.password,
