@@ -114,7 +114,7 @@ export default function Question() {
         ans.images.map((e, i) => {
           return (
             <>
-              <img className="h-[60vh]" alt="ques" src={e} />
+              <img key={i} className="h-[60vh]" alt="ques" src={e} />
             </>
           );
         })}
