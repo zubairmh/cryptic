@@ -122,18 +122,18 @@ export default function Question() {
       <Button onClick={handleSubmit} type="button">
         Submit
       </Button>
-      <div className="absolute bottom-0 right-0">
-        <div className="flex flex-row gap-4">
-          <Link target="_blank" href="/leaderboard">Leaderboard</Link>
-          <button
-            onClick={() => {
-              deleteCookie("data");
-              router.push("/");
-            }}
-          >
-            Logout
-          </button>
-        </div>
+      <div className="flex flex-row gap-4">
+        <Link target="_blank" href="/leaderboard">
+          Leaderboard
+        </Link>
+        <button
+          onClick={() => {
+            deleteCookie("data");
+            router.push("/");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

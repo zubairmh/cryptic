@@ -16,7 +16,7 @@ export default function Home() {
       <h1 className="text-5xl">CRYPTIC HUNT</h1>
       <LoginSwitch />
       <Login />
-      <div className="absolute bottom-0 right-0">
+      <div className="flex self-end justify-self-end p-5">
         <div className="flex flex-row gap-4">
           <Link href="/leaderboard" target="_blank">
             <MdLeaderboard size={40} />
