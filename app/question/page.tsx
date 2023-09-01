@@ -13,6 +13,7 @@ import { deleteCookie, getCookie, hasCookie } from "cookies-next";
 import { BASE_URL } from "@/lib/base";
 import { ToastContainer, toast, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 const orbit = Orbitron({ weight: "600", subsets: ["latin"] });
 interface Question {
   ques: string;
@@ -76,7 +77,7 @@ export default function Question() {
         console.log(res.data);
         if (res.data) {
           toast.dismiss();
-          toast.success("✅ Correct Answer", { theme: "colored" });
+          toast.success("Correct Answer", { theme: "colored" });
           // notify("correct ans");
           // setTimeout(() => {
 
@@ -84,7 +85,7 @@ export default function Question() {
           fetchques();
         } else {
           toast.dismiss();
-          toast.error("😔 Wrong Answer", { theme: "colored" });
+          toast.error("Wrong Answer", { theme: "colored" });
           // notify("wrong ans");
         }
       })
@@ -104,7 +105,6 @@ export default function Question() {
       style={orbit.style}
       className="bg-black text-white flex-col flex min-h-screen items-center justify-center gap-6"
     >
-      <ToastContainer transition={Flip} />
       <h1 className="text-3xl">Question {ans.number}</h1>
       {ans.ques.split("<br/>").map((e, i) => {
         return <h3 key={i}>{e}</h3>;
@@ -123,14 +123,17 @@ export default function Question() {
         Submit
       </Button>
       <div className="absolute bottom-0 right-0">
-        <button
-          onClick={() => {
-            deleteCookie("data");
-            router.push("/")
-          }}
-        >
-          Logout
-        </button>
+        <div className="flex flex-row gap-4">
+          <Link target="_blank" href="/leaderboard">Leaderboard</Link>
+          <button
+            onClick={() => {
+              deleteCookie("data");
+              router.push("/");
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

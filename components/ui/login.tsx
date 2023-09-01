@@ -19,6 +19,8 @@ import { useEffect } from "react";
 // import { cookies } from 'next/headers'
 import { setCookie } from "cookies-next";
 import { BASE_URL } from "@/lib/base";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 // import toastify
 // import localstorage
 // import { useCookies } from "react-cookie"
@@ -38,6 +40,8 @@ export default function Login() {
     resolver: zodResolver(FormSchema),
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast.dismiss()
+    toast.loading("Logging in", { theme: "dark" });
     axios
       .post(
         `${BASE_URL}v1/auth/login`,
@@ -54,10 +58,14 @@ export default function Login() {
       )
       .then((res) => {
         setCookie("data", res.data.access_token);
+        toast.dismiss();
+        toast.success("Logged in", { theme: "colored" });
         router.push("/question");
       })
       .catch((error) => {
         // notify("wrong credentials")
+        toast.dismiss();
+        toast.error("Wrong username/password", { theme: "colored" });
         console.log(error);
       });
   }
