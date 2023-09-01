@@ -102,9 +102,9 @@ export default function Login() {
             </FormItem>
           )}
         />
-        {/* <div className="w-full flex flex-row justify-end">
+        <div className="w-full flex flex-row justify-end">
           <Button type="submit">Login</Button>
-        </div> */}
+        </div>
       </form>
     </Form>
   );
