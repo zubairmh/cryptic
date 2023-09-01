@@ -54,7 +54,7 @@ export default function Question() {
     if (!hasCookie("data")) {
       router.push("/");
     } else {
-      fetchques();
+      // fetchques();
     }
   }, []);
 

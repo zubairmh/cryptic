@@ -103,7 +103,7 @@ export default function Login() {
           )}
         />
         {/* <div className="w-full flex flex-row justify-end">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Login</Button>
         </div> */}
       </form>
     </Form>
