@@ -75,7 +75,7 @@ export default function Login() {
             <FormItem>
               <FormLabel>Leader Email</FormLabel>
               <FormControl>
-                <Input placeholder="parag@gmail.com" {...field} />
+                <Input placeholder="h2s@scammer.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +88,7 @@ export default function Login() {
             <FormItem>
               <FormLabel>Team Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="..." {...field} />
+                <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

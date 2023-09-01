@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { error } from "console";
 import { useRouter } from "next/navigation";
-import { getCookie, hasCookie } from "cookies-next";
+import { deleteCookie, getCookie, hasCookie } from "cookies-next";
 import { BASE_URL } from "@/lib/base";
 import { ToastContainer, toast, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,8 +52,9 @@ export default function Question() {
   useEffect(() => {
     if (!hasCookie("data")) {
       router.push("/");
+    } else {
+      fetchques();
     }
-    fetchques();
   }, []);
 
   function handleSubmit() {
@@ -74,16 +75,16 @@ export default function Question() {
       .then((res) => {
         console.log(res.data);
         if (res.data) {
-          toast.dismiss()
-          toast.success("✅ Correct Answer",{theme:"colored"})
+          toast.dismiss();
+          toast.success("✅ Correct Answer", { theme: "colored" });
           // notify("correct ans");
           // setTimeout(() => {
 
           // }, 1000);
           fetchques();
         } else {
-            toast.dismiss()
-            toast.error("😔 Wrong Answer",{theme:"colored"})
+          toast.dismiss();
+          toast.error("😔 Wrong Answer", { theme: "colored" });
           // notify("wrong ans");
         }
       })
@@ -121,6 +122,16 @@ export default function Question() {
       <Button onClick={handleSubmit} type="button">
         Submit
       </Button>
+      <div className="absolute bottom-0 right-0">
+        <button
+          onClick={() => {
+            deleteCookie("data");
+            router.push("/")
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
