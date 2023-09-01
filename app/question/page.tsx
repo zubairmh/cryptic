@@ -21,6 +21,7 @@ interface Question {
   images: Array<string>;
 }
 export default function Question() {
+  const btn=useRef<HTMLButtonElement>(null);
   const answer = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [ans, setAns] = useState<Question>({
@@ -61,6 +62,9 @@ export default function Question() {
   function handleSubmit() {
     // console.log(answer.current.value)
     toast.dismiss();
+    if(btn.current) {
+      btn.current.disabled=true;
+    }
     toast("Checking answer", { theme: "dark" });
     axios
       .post(
@@ -78,6 +82,9 @@ export default function Question() {
         if (res.data) {
           toast.dismiss();
           toast.success("Correct Answer", { theme: "colored" });
+          if(btn.current) {
+            btn.current.disabled=false;
+          }
           // notify("correct ans");
           // setTimeout(() => {
 
@@ -86,12 +93,18 @@ export default function Question() {
         } else {
           toast.dismiss();
           toast.error("Wrong Answer", { theme: "colored" });
+          if(btn.current) {
+            btn.current.disabled=false;
+          }
           // notify("wrong ans");
         }
       })
       .catch((error) => {
         toast.dismiss();
         toast.error("Error occured, try again later", { theme: "dark" });
+        if(btn.current) {
+          btn.current.disabled=false;
+        }
         console.log(error);
       }); // console.log(e.target.value);
   }
@@ -119,7 +132,7 @@ export default function Question() {
           );
         })}
       <Input ref={answer} className="md:w-1/4 w-1/2" placeholder="answer" />
-      <Button onClick={handleSubmit} type="button">
+      <Button ref={btn} onClick={handleSubmit} type="button">
         Submit
       </Button>
       <div className="flex flex-row gap-4">
